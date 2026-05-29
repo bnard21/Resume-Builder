@@ -3,6 +3,9 @@ import { View, Text, Button, StyleSheet } from "react-native";
 export default function ResumePreview({
   name,
   email,
+  phone,
+  linkedin,
+  location,
   experience,
   removeExperience,
   skills,
@@ -15,7 +18,8 @@ export default function ResumePreview({
       <Text style={styles.resumeName}>{name || "Your Name"}</Text>
 
       <Text style={styles.resumeContact}>
-        {email || "your.email@example.com"}
+        {phone || "Phone"} | {email || "your.email@example.com"} |{""}
+        {linkedin || "LinkedIn"} | {location || "Location"}
       </Text>
 
       <View style={styles.section}>

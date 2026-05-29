@@ -10,6 +10,9 @@ import ResumePreview from "./components/ResumePreview";
 export default function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [location, setLocation] = useState("");
 
   const [job, setJob] = useState({
     company: "",
@@ -96,6 +99,12 @@ export default function App() {
         setName={setName}
         email={email}
         setEmail={setEmail}
+        phone={phone}
+        setPhone={setPhone}
+        linkedin={linkedin}
+        setLinkedin={setLinkedin}
+        location={location}
+        setLocation={setLocation}
       />
 
       <ExperienceForm
@@ -118,6 +127,9 @@ export default function App() {
       <ResumePreview
         name={name}
         email={email}
+        phone={phone}
+        linkedin={linkedin}
+        location={location}
         experience={experience}
         removeExperience={removeExperience}
         skills={skills}
