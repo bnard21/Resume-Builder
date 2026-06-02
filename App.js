@@ -7,8 +7,10 @@ import SkillsForm from "./components/SkillsForm";
 import EducationForm from "./components/EducationForm";
 import SummaryForm from "./components/SummaryForm";
 import CertificationsForm from "./components/CertificationsForm";
+import TemplateSelector from "./components/TemplateSelector";
 import ResumePreview from "./components/ResumePreview";
 
+//Personal Information useStates
 export default function App() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,6 +19,10 @@ export default function App() {
   const [location, setLocation] = useState("");
   const [summary, setSummary] = useState("")
 
+  //Select Template useState
+  const [selectedTemplate, setSelectedTemplate] = useState("Classic");
+
+  //Job useState
   const [job, setJob] = useState({
     company: "",
     role: "",
@@ -24,20 +30,24 @@ export default function App() {
     description: "",
   });
 
+  //Work experience useState
   const [experience, setExperience] = useState([]);
 
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
 
+  //Certificatons useState
   const [certification, setCertification] = useState("");
   const [certifications, setCertifications] = useState([]);
 
+  //School useState
   const [school, setSchool] = useState({
     name: "",
     degree: "",
     graduationDate: "",
   });
 
+  //Education useState
   const [education, setEducation] = useState([]);
 
   const addExperience = () => {
@@ -173,6 +183,12 @@ const removeCertification = (indexToRemove) => {
         school={school}
         setSchool={setSchool}
         addEducation={addEducation}
+      />
+
+      <Text style={styles.sectionHeader}>Choose Template</Text>
+      <TemplateSelector
+        selectedTemplate={selectedTemplate}
+        setSelectedTemplate={setSelectedTemplate}
       />
 
       <Text style={styles.sectionHeader}>Resume Preview</Text>
