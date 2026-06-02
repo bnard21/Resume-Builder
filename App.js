@@ -126,7 +126,8 @@ const removeCertification = (indexToRemove) => {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Resume Builder</Text>
-
+      
+      <Text style={styles.sectionHeader}>Personal Information</Text>
       <PersonalInfoForm
         name={name}
         setName={setName}
@@ -139,36 +140,42 @@ const removeCertification = (indexToRemove) => {
         location={location}
         setLocation={setLocation}
       />
-
+      
+      <Text style={styles.sectionHeader}>Qualification Summary</Text>
       <SummaryForm
         summary={summary}
         setSummary={setSummary}
       />
 
+      <Text style={styles.sectionHeader}>Work Experience</Text>
       <ExperienceForm
         job={job}
         setJob={setJob}
         addExperience={addExperience}
       />
 
+      <Text style={styles.sectionHeader}>Skills</Text>
       <SkillsForm
         skill={skill}
         setSkill={setSkill}
         addSkill={addSkill}
       />
 
+      <Text style={styles.sectionHeader}>Certifications</Text>
       <CertificationsForm
         certification={certification}
         setCertification={setCertification}
         addCertification={addCertification}
       />
 
+      <Text style={styles.sectionHeader}>Education</Text>
       <EducationForm
         school={school}
         setSchool={setSchool}
         addEducation={addEducation}
       />
 
+      <Text style={styles.sectionHeader}>Resume Preview</Text>
       <ResumePreview
         name={name}
         email={email}
@@ -198,5 +205,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  sectionHeader: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 25,
+    marginBottom: 10,
   },
 });
