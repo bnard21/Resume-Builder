@@ -6,10 +6,13 @@ export default function ResumePreview({
   phone,
   linkedin,
   location,
+  summary,
   experience,
   removeExperience,
   skills,
   removeSkill,
+  certifications,
+  removeCertification,
   education,
   removeEducation,
 }) {
@@ -21,6 +24,14 @@ export default function ResumePreview({
         {phone || "Phone"} | {email || "your.email@example.com"} |{""}
         {linkedin || "LinkedIn"} | {location || "Location"}
       </Text>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Qualification Summary</Text>
+
+        <Text style={summary ? styles.summaryText : styles.emptyText}>
+          {summary || "No summary added yet."}
+        </Text>
+      </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Skills</Text>
@@ -35,6 +46,25 @@ export default function ResumePreview({
               <Button title="Remove" onPress={() => removeSkill(index)} />
             </View>
           ))
+        )}
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Certifications</Text>
+
+        {certifications.length === 0 ? (
+          <Text style={styles.emptyText}>No certifications added yet.</Text>
+        ) : (
+          certifications.map((item, index) => (
+            <View key={index} style={styles.certificationItem}>
+              <Text style={styles.certificationText}>• {item}</Text>
+
+              <Button
+                title="Remove"
+                onPress={() => removeCertification(index)}
+              />
+            </View>
+        ))
         )}
       </View>
 
@@ -119,10 +149,22 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
   },
 
+  summaryText: {
+  fontSize: 14,
+  lineHeight: 20,
+  },
+
   skillItem: {
     marginBottom: 8,
   },
   skillText: {
+    fontSize: 14,
+  },
+
+  certificationItem: {
+    marginBottom: 8,
+  },
+  certificationText: {
     fontSize: 14,
   },
 

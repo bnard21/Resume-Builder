@@ -5,6 +5,8 @@ import PersonalInfoForm from "./components/PersonalInfoForm";
 import ExperienceForm from "./components/ExperienceForm";
 import SkillsForm from "./components/SkillsForm";
 import EducationForm from "./components/EducationForm";
+import SummaryForm from "./components/SummaryForm";
+import CertificationsForm from "./components/CertificationsForm";
 import ResumePreview from "./components/ResumePreview";
 
 export default function App() {
@@ -13,6 +15,7 @@ export default function App() {
   const [phone, setPhone] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [location, setLocation] = useState("");
+  const [summary, setSummary] = useState("")
 
   const [job, setJob] = useState({
     company: "",
@@ -25,6 +28,9 @@ export default function App() {
 
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
+
+  const [certification, setCertification] = useState("");
+  const [certifications, setCertifications] = useState([]);
 
   const [school, setSchool] = useState({
     name: "",
@@ -54,6 +60,8 @@ export default function App() {
 
     setExperience(updatedExperience);
   };
+  
+//This function adds skills  
 
   const addSkill = () => {
     if (skill.trim() === "") return;
@@ -62,6 +70,8 @@ export default function App() {
     setSkill("");
   };
 
+//This function removes skills
+
   const removeSkill = (indexToRemove) => {
     const updatedSkills = skills.filter((item, index) => {
       return index !== indexToRemove;
@@ -69,6 +79,27 @@ export default function App() {
 
     setSkills(updatedSkills);
   };
+
+//This function adds certifications 
+
+  const addCertification = () => {
+    if (certification.trim() === "") return;
+
+    setCertifications([...certifications, certification]);
+    setCertification("");
+  }
+
+//This function removes the certification
+
+const removeCertification = (indexToRemove) => {
+  const updatedCertifications = certifications.filter((item, index) => {
+    return index !== indexToRemove;
+  });
+
+  setCertifications(updatedCertifications);
+}
+
+//This function adds education 
 
   const addEducation = () => {
     if (school.name.trim() === "" || school.degree.trim() === "") return;
@@ -81,6 +112,8 @@ export default function App() {
       graduationDate: "",
     });
   };
+
+//This function removes education
 
   const removeEducation = (indexToRemove) => {
     const updatedEducation = education.filter((item, index) => {
@@ -107,6 +140,11 @@ export default function App() {
         setLocation={setLocation}
       />
 
+      <SummaryForm
+        summary={summary}
+        setSummary={setSummary}
+      />
+
       <ExperienceForm
         job={job}
         setJob={setJob}
@@ -118,6 +156,13 @@ export default function App() {
         setSkill={setSkill}
         addSkill={addSkill}
       />
+
+      <CertificationsForm
+        certification={certification}
+        setCertification={setCertification}
+        addCertification={addCertification}
+      />
+
       <EducationForm
         school={school}
         setSchool={setSchool}
@@ -130,10 +175,13 @@ export default function App() {
         phone={phone}
         linkedin={linkedin}
         location={location}
+        summary={summary}
         experience={experience}
         removeExperience={removeExperience}
         skills={skills}
         removeSkill={removeSkill}
+        certifications={certifications}
+        removeCertification={removeCertification}
         education={education}
         removeEducation={removeEducation}
       />
