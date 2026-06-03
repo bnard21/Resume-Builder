@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet, ScrollView, Button } from "react-native";
 
 import PersonalInfoForm from "../components/PersonalInfoForm";
 import ExperienceForm from "../components/ExperienceForm";
@@ -7,112 +6,51 @@ import SkillsForm from "../components/SkillsForm";
 import EducationForm from "../components/EducationForm";
 import SummaryForm from "../components/SummaryForm";
 import CertificationsForm from "../components/CertificationsForm";
-import ResumePreview from "../components/ResumePreview";
 
-export default function ResumeBuilderScreen({ route }) {
-  //Use the selected templated otherwise use the classic.
+import { useResume } from "../context/ResumeContext";
+
+export default function ResumeBuilderScreen({ route, navigation }) {
+  // Use the selected template, otherwise use classic.
   const selectedTemplate = route.params?.selectedTemplate || "classic";
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [location, setLocation] = useState("");
-  const [summary, setSummary] = useState("");
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    phone,
+    setPhone,
+    linkedin,
+    setLinkedin,
+    location,
+    setLocation,
+    summary,
+    setSummary,
 
-  const [job, setJob] = useState({
-    company: "",
-    role: "",
-    dates: "",
-    description: "",
-  });
+    job,
+    setJob,
+    experience,
+    addExperience,
+    removeExperience,
 
-  const [experience, setExperience] = useState([]);
+    skill,
+    setSkill,
+    skills,
+    addSkill,
+    removeSkill,
 
-  const [skill, setSkill] = useState("");
-  const [skills, setSkills] = useState([]);
+    certification,
+    setCertification,
+    certifications,
+    addCertification,
+    removeCertification,
 
-  const [certification, setCertification] = useState("");
-  const [certifications, setCertifications] = useState([]);
-
-  const [school, setSchool] = useState({
-    name: "",
-    degree: "",
-    graduationDate: "",
-  });
-
-  const [education, setEducation] = useState([]);
-
-  const addExperience = () => {
-    if (job.company.trim() === "" || job.role.trim() === "") return;
-
-    setExperience([...experience, job]);
-
-    setJob({
-      company: "",
-      role: "",
-      dates: "",
-      description: "",
-    });
-  };
-
-  const removeExperience = (indexToRemove) => {
-    const updatedExperience = experience.filter((item, index) => {
-      return index !== indexToRemove;
-    });
-
-    setExperience(updatedExperience);
-  };
-
-  const addSkill = () => {
-    if (skill.trim() === "") return;
-
-    setSkills([...skills, skill]);
-    setSkill("");
-  };
-
-  const removeSkill = (indexToRemove) => {
-    const updatedSkills = skills.filter((item, index) => {
-      return index !== indexToRemove;
-    });
-
-    setSkills(updatedSkills);
-  };
-
-  const addCertification = () => {
-    if (certification.trim() === "") return;
-
-    setCertifications([...certifications, certification]);
-    setCertification("");
-  };
-
-  const removeCertification = (indexToRemove) => {
-    const updatedCertifications = certifications.filter((item, index) => {
-      return index !== indexToRemove;
-    });
-
-    setCertifications(updatedCertifications);
-  };
-
-  const addEducation = () => {
-    if (school.name.trim() === "" || school.degree.trim() === "") return;
-
-    setEducation([...education, school]);
-
-    setSchool({
-      name: "",
-      degree: "",
-      graduationDate: "",
-    });
-  };
-
-  const removeEducation = (indexToRemove) => {
-    const updatedEducation = education.filter((item, index) => {
-      return index !== indexToRemove;
-    });
-
-    setEducation(updatedEducation);
-  };
+    school,
+    setSchool,
+    education,
+    addEducation,
+    removeEducation,
+  } = useResume();
 
   return (
     <ScrollView style={styles.container}>
@@ -159,23 +97,13 @@ export default function ResumeBuilderScreen({ route }) {
         addEducation={addEducation}
       />
 
-      <Text style={styles.sectionHeader}>Resume Preview</Text>
-      <ResumePreview
-        selectedTemplate={selectedTemplate}
-        name={name}
-        email={email}
-        phone={phone}
-        linkedin={linkedin}
-        location={location}
-        summary={summary}
-        experience={experience}
-        removeExperience={removeExperience}
-        skills={skills}
-        removeSkill={removeSkill}
-        certifications={certifications}
-        removeCertification={removeCertification}
-        education={education}
-        removeEducation={removeEducation}
+      <Button
+        title="Preview Resume"
+        onPress={() =>
+          navigation.navigate("ResumePreview", {
+            selectedTemplate,
+          })
+        }
       />
     </ScrollView>
   );
