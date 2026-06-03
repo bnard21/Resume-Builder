@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, Button, StyleSheet, Alert } from "react-native";
 
 export default function TemplateSelector({
   templates,
@@ -13,6 +13,23 @@ export default function TemplateSelector({
     }
 
     return `$${template.price.toFixed(2)}`;
+  };
+
+  const confirmPurchase = (template) => {
+    Alert.alert(
+      "Unlock Template",
+      `Unlock ${template.name} for ${formatPrice(template)}? This is a lifetime unlock.`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Confirm Purchase",
+          onPress: () => purchaseTemplate(template.id),
+        },
+      ]
+    );
   };
 
   return (
@@ -51,7 +68,7 @@ export default function TemplateSelector({
             ) : (
               <Button
                 title={`Buy ${template.name} - ${formatPrice(template)}`}
-                onPress={() => purchaseTemplate(template.id)}
+                onPress={() => confirmPurchase(template)}
               />
             )}
           </View>
