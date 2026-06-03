@@ -1,6 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ResumeContext = createContext();
+
+const RESUME_STORAGE_KEY = "resumeData";
 
 export function ResumeProvider({ children }) {
   const [name, setName] = useState("");
@@ -32,6 +35,73 @@ export function ResumeProvider({ children }) {
   });
 
   const [education, setEducation] = useState([]);
+
+  const loadResumeData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem(RESUME_STORAGE_KEY);
+
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+
+        setName(parsedData.name || "");
+        setEmail(parsedData.email || "");
+        setPhone(parsedData.phone || "");
+        setLinkedin(parsedData.linkedin || "");
+        setLocation(parsedData.location || "");
+        setSummary(parsedData.summary || "");
+
+        setExperience(parsedData.experience || []);
+        setSkills(parsedData.skills || []);
+        setCertifications(parsedData.certifications || []);
+        setEducation(parsedData.education || []);
+      }
+    } catch (error) {
+      console.log("Error loading resume data:", error);
+    }
+  };
+
+  const saveResumeData = async () => {
+    try {
+      const resumeDataToSave = {
+        name,
+        email,
+        phone,
+        linkedin,
+        location,
+        summary,
+        experience,
+        skills,
+        certifications,
+        education,
+      };
+
+      await AsyncStorage.setItem(
+        RESUME_STORAGE_KEY,
+        JSON.stringify(resumeDataToSave)
+      );
+    } catch (error) {
+      console.log("Error saving resume data:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadResumeData();
+  }, []);
+
+  useEffect(() => {
+    saveResumeData();
+  }, [
+    name,
+    email,
+    phone,
+    linkedin,
+    location,
+    summary,
+    experience,
+    skills,
+    certifications,
+    education,
+  ]);
 
   const addExperience = () => {
     if (job.company.trim() === "" || job.role.trim() === "") return;
