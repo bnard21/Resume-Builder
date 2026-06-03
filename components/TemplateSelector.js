@@ -1,28 +1,62 @@
 import { View, Text, Button, StyleSheet } from "react-native";
 
 export default function TemplateSelector({
+  templates,
   selectedTemplate,
   setSelectedTemplate,
+  unlockedTemplates,
+  purchaseTemplate,
 }) {
+  const formatPrice = (template) => {
+    if (template.isFree || template.price === 0) {
+      return "Free";
+    }
+
+    return `$${template.price.toFixed(2)}`;
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Choose a Resume Template</Text>
 
-      <View style={styles.templateCard}>
-        <Text style={styles.templateName}>Classic Professional</Text>
-        <Text style={styles.templateDescription}>
-          Clean, simple, ATS-friendly resume layout.
-        </Text>
+      {templates.map((template) => {
+        const isUnlocked =
+          template.isFree ||
+          template.price === 0 ||
+          unlockedTemplates.includes(template.id);
 
-        <Button
-          title={
-            selectedTemplate === "classic"
-              ? "Selected"
-              : "Select Classic Template"
-          }
-          onPress={() => setSelectedTemplate("classic")}
-        />
-      </View>
+        return (
+          <View key={template.id} style={styles.templateCard}>
+            <Text style={styles.templateName}>{template.name}</Text>
+
+            <Text style={styles.templateStatus}>
+              {isUnlocked
+                ? "Unlocked"
+                : `Locked - ${formatPrice(template)} Lifetime Unlock`}
+            </Text>
+
+            <Text style={styles.templateDescription}>
+              {template.description}
+            </Text>
+
+            {isUnlocked ? (
+              <Button
+                title={
+                  selectedTemplate === template.id
+                    ? "Selected"
+                    : `Use ${template.name}`
+                }
+                onPress={() => setSelectedTemplate(template.id)}
+              />
+            ) : (
+              <Button
+                title={`Buy ${template.name} - ${formatPrice(template)}`}
+                onPress={() => purchaseTemplate(template.id)}
+              />
+            )}
+          </View>
+        );
+      })}
     </View>
   );
 }
@@ -43,11 +77,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     backgroundColor: "#fff",
+    marginBottom: 12,
   },
   templateName: {
     fontSize: 16,
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 4,
+  },
+  templateStatus: {
+    fontSize: 13,
+    fontWeight: "bold",
+    marginBottom: 6,
   },
   templateDescription: {
     fontSize: 13,

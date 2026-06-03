@@ -10,6 +10,9 @@ import CertificationsForm from "./components/CertificationsForm";
 import TemplateSelector from "./components/TemplateSelector";
 import ResumePreview from "./components/ResumePreview";
 
+import { templates } from "./data/templates";
+
+
 //Personal Information useStates
 export default function App() {
   const [name, setName] = useState("");
@@ -21,6 +24,22 @@ export default function App() {
 
   //Select Template useState
   const [selectedTemplate, setSelectedTemplate] = useState("Classic");
+
+  const freeTemplateIds = templates
+    .filter((template) => template.isFree)
+    .map((template) => template.id);
+
+  const [unlockedTemplates, setUnlockedTemplates] = useState(freeTemplateIds);
+
+  const purchaseTemplate = (templateId) => {
+    if (unlockedTemplates.includes(templateId)) {
+      setSelectedTemplate(templateId);
+      return;
+    }
+
+    setUnlockedTemplates([...unlockedTemplates, templateId]);
+    setSelectedTemplate(templateId);
+  };
 
   //Job useState
   const [job, setJob] = useState({
@@ -36,7 +55,7 @@ export default function App() {
   const [skill, setSkill] = useState("");
   const [skills, setSkills] = useState([]);
 
-  //Certificatons useState
+  //Certifications useState
   const [certification, setCertification] = useState("");
   const [certifications, setCertifications] = useState([]);
 
@@ -185,14 +204,19 @@ const removeCertification = (indexToRemove) => {
         addEducation={addEducation}
       />
 
+
       <Text style={styles.sectionHeader}>Choose Template</Text>
       <TemplateSelector
+        templates={templates}
         selectedTemplate={selectedTemplate}
         setSelectedTemplate={setSelectedTemplate}
+        unlockedTemplates={unlockedTemplates}
+        purchaseTemplate={purchaseTemplate}
       />
 
       <Text style={styles.sectionHeader}>Resume Preview</Text>
       <ResumePreview
+      selectedTemplate={selectedTemplate}
         name={name}
         email={email}
         phone={phone}
