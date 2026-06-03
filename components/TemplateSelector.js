@@ -1,4 +1,5 @@
 import { View, Text, Button, StyleSheet, Alert } from "react-native";
+import TemplateCardPreview from "./TemplateCardPreview";
 
 export default function TemplateSelector({
   templates,
@@ -44,6 +45,8 @@ export default function TemplateSelector({
 
         return (
           <View key={template.id} style={styles.templateCard}>
+            <TemplateCardPreview templateId={template.id} />
+            
             <Text style={styles.templateName}>{template.name}</Text>
 
             <Text style={styles.templateStatus}>

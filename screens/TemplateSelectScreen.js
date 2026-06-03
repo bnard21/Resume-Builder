@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
 
 import TemplateSelector from "../components/TemplateSelector";
 import { templates } from "../data/templates";
@@ -33,6 +33,12 @@ export default function TemplateSelectScreen({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
+      <Text style={styles.title}>Choose Your Resume Template</Text>
+
+      <Text style={styles.subtitle}>
+         Pick a template, unlock it once, and use it forever.
+      </Text>
+
       <TemplateSelector
         templates={templates}
         selectedTemplate={selectedTemplate}
@@ -48,5 +54,16 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     marginTop: 20,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: "#555",
+    marginBottom: 20,
+    lineHeight: 21,
   },
 });
