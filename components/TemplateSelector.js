@@ -58,11 +58,7 @@ export default function TemplateSelector({
 
             {isUnlocked ? (
               <Button
-                title={
-                  selectedTemplate === template.id
-                    ? "Selected"
-                    : `Use ${template.name}`
-                }
+                title={`Use ${template.name}`}
                 onPress={() => setSelectedTemplate(template.id)}
               />
             ) : (

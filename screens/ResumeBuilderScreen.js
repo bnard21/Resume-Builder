@@ -10,6 +10,7 @@ import CertificationsForm from "../components/CertificationsForm";
 import ResumePreview from "../components/ResumePreview";
 
 export default function ResumeBuilderScreen({ route }) {
+  //Use the selected templated otherwise use the classic.
   const selectedTemplate = route.params?.selectedTemplate || "classic";
 
   const [name, setName] = useState("");

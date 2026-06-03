@@ -5,31 +5,22 @@ import TemplateSelector from "../components/TemplateSelector";
 import { templates } from "../data/templates";
 
 export default function TemplateSelectScreen({ navigation }) {
+    //This keeps track of the template that is selected.
   const [selectedTemplate, setSelectedTemplate] = useState("classic");
 
   const freeTemplateIds = templates
     .filter((template) => template.isFree)
     .map((template) => template.id);
 
+    //This keeps track of the template the user has purchased/unlocked.
   const [unlockedTemplates, setUnlockedTemplates] = useState(freeTemplateIds);
 
   const purchaseTemplate = (templateId) => {
     if (unlockedTemplates.includes(templateId)) {
-      setSelectedTemplate(templateId);
-
-      navigation.navigate("ResumeBuilder", {
-        selectedTemplate: templateId,
-      });
-
       return;
     }
 
     setUnlockedTemplates([...unlockedTemplates, templateId]);
-    setSelectedTemplate(templateId);
-
-    navigation.navigate("ResumeBuilder", {
-      selectedTemplate: templateId,
-    });
   };
 
   const useTemplate = (templateId) => {
